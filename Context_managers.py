@@ -34,30 +34,30 @@ except Exception as e:
 print(f' after transaction: {data}')
 print('-' * 150)
 
-# import logging
-# print('second example')
-# print('-' * 150)
-# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-#
-# class ErrorSuppressor:
-#     def __init__(self, *error_to_suppress, log_message=' Attention caused mistake'):
-#         self.error_to_suppress = error_to_suppress or (Exception,)
-#         self.log_message = log_message
-#
-#     def __enter__(self):
-#         return self
-#
-#     def __exit__(self, exc_type, exc_val, exc_tb):
-#         if exc_type and  any(issubclass(exc_type, error) for error in self.error_to_suppress):
-#             logging.warning(f'{self.log_message}: {exc_type}: {exc_val}')
-#             return True
-#         return False
-#
-# with ErrorSuppressor(ValueError, ZeroDivisionError, log_message=' Dont calculated') :
-#     result = 10/0
-#
-# with ErrorSuppressor(ValueError):
-#     raise ValueError('This mistake dont caused')
+import logging
+print('second example')
+print('-' * 150)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+class ErrorSuppressor:
+    def __init__(self, *error_to_suppress, log_message=' Attention caused mistake'):
+        self.error_to_suppress = error_to_suppress or (Exception,)
+        self.log_message = log_message
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type and  any(issubclass(exc_type, error) for error in self.error_to_suppress):
+            logging.warning(f'{self.log_message}: {exc_type}: {exc_val}')
+            return True
+        return False
+
+with ErrorSuppressor(ValueError, ZeroDivisionError, log_message=' Dont calculated') :
+    result = 10/0
+
+with ErrorSuppressor(ValueError):
+    raise ValueError('This mistake dont caused')
 print('third example')
 print('-' * 150)
 import pickle
